@@ -18,8 +18,9 @@ This plugin will install onos controller and let it be the manager for OVS.
 ##Limitations##
 
 
-* Only supports the environment with network type: neutron with vlan.
-* L2 traffic is the only function with ONOS.
+* Only supports the environment with network type: Neutron.
+Note: Neutron with VLAN segmentation is more stable, while neutron with GRE may hava failure about dhcp and net connection.
+* L3 traffic is not available of ONOS.
 
 ##Installation Guide##
 
