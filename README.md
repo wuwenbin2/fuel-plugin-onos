@@ -51,13 +51,13 @@ C. Then, install Fuel Plugin Builder (fpb) itself:
 
         fpb --build fuel-plugin-onos/
 
-4. The onos rpm will be build in the folder of fuel-plugin-onos.
+4. The onos rpm will be built in the folder of fuel-plugin-onos.
 
 5. Install the onos plugin:
 
         fuel plugins --install onos-[x.x.x].rpm
 
-6. Check if the plugin was installed successfully:
+6. Check if you successfully install the plugin:
 
         fuel plugins
 
@@ -79,9 +79,22 @@ Note: the info of a new plugin can only be ready  when a new environment is crea
 All action is with Fuel UI wizard.   
 1. Create a new environment.   
 2. Select 'onos plugin' on Settings tab.   
-3. Click 'Deploy changes' to enable nodes with ONOS.  
-
+ 
     ☑ onos plugin 
+
+3. Select a node with role 'controller' and others with role 'compute'.
+Note: In avoid of deployging failure, pay attentions to node configuration espacelly interfaces. 
+
+        | interfaces   | useage                 |
+        |--------------|------------------------|
+        | eht0         | Admin(PXE)             |
+        | eht1         | Storage and Management | 
+        | eht2         | Private                | 
+        | eht3         | Public                 | 
+
+4. Click 'Deploy changes' to enable nodes with ONOS.  
+
+
 
 ###Dependencies###
 
