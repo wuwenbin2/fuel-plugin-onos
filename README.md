@@ -19,7 +19,6 @@ This plugin will install onos controller and let it be the manager for OVS.
 
 
 * Only supports the environment with network type: neutron with vlan.
-* HA strategy is not supported and ONOS controller is only installed in the primary OpenStack controller.
 * L2 traffic is the only function with ONOS.
 
 ##Installation Guide##
@@ -77,7 +76,7 @@ Note: the info of a new plugin can only be ready  when a new environment is crea
 ###ONOS plugin configuration###
 
 
-All action are with the Fuel UI wizard.   
+All action is with Fuel UI wizard.   
 1. Create a new environment.   
 2. Select 'onos plugin' on Settings tab.   
 3. Click 'Deploy changes' to enable nodes with ONOS.  
@@ -95,8 +94,8 @@ Note: In case of version problems, the onos rpm uses jdk and onos packages that 
 
 ###Testing###
 
-1.	Web UI is recommended for ONOS controller with tuitive information of topo, devices and etc.
-for that purpose, IP address of the primary controller should be ready.
+1. Web UI is recommended for ONOS controller with tuitive information of topo, devices and etc.
+for that purpose, IP address of the primary controller should be ready. The web will run into the log page after inputing the path, the username and password are both karaf. Now enjot ONOS!
 
         fuel node
 
@@ -106,8 +105,8 @@ for that purpose, IP address of the primary controller should be ready.
         2  | ready  | Untitled (23:6f) | 1       | 10.20.0.2 | 52:54:00:51:23:6f | ceph-osd, compute    |               | True   | 1     
 
  
-	Web UI: http://controller_ip:8181/onos/ui.html
-2.	CLI is capable of more diverse functionality by running/opt/onos/bin/onos.More about CLI can be found in [The ONOS CLI](
+	Web UI: http://controller_ip:8181/onos/ui/index.html 
+2. CLI is capable of more diverse functionality by running/opt/onos/bin/onos.More about CLI can be found in [The ONOS CLI](
 https://wiki.onosproject.org/display/ONOS/The+ONOS+CLI).
 
 
