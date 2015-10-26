@@ -22,7 +22,7 @@ This plugin will install onos controller and let it be the manager for OVS.
 Note: Neutron with VLAN segmentation is more stable, while neutron with GRE may hava failure about dhcp and net connection.
 * L3 traffic is not available of ONOS.
 
-##Installation Guide##
+##User Guide##
 
 
 ###ONOS plugin installation###
@@ -70,12 +70,7 @@ C. Then, install Fuel Plugin Builder (fpb) itself:
 7. Check if the plugin is enabled on the settings table.      
 Note: the info of a new plugin can only be ready  when a new environment is created.
 
-
-##User Guide##
-
-
 ###ONOS plugin configuration###
-
 
 All action is with Fuel UI wizard.   
 1. Create a new environment.   
@@ -94,7 +89,6 @@ Note: In avoid of deployging failure, pay attentions to node configuration espac
         | eht3         | Public                 | 
 
 4. Click 'Deploy changes' to enable nodes with ONOS.  
-
 
 
 ###Dependencies###
