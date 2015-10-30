@@ -1,0 +1,50 @@
+#!/bin/bash
+# description: Open Network Operating System
+# onos    Startup script for onos
+# chkconfig: - 85 15
+# processname: onos
+prog=onos
+export JAVA_HOME=/usr/lib/jvm/java-8-oracle
+export ONOS_APPS=<%= @onos_extra_features -%>
+
+cd /opt/onos/apache-karaf-3.0.3/bin/
+start(){
+        echo $"Starting $prog..."
+        ../../bin/onos-service &
+        }
+stop(){
+        PID=`ps aux | grep java | grep karaf | awk '{print $2}'`
+        echo $"Stopping $prog $PID"
+        kill -9 $PID
+        }
+status(){
+        PID=`ps aux | grep java | grep karaf | awk '{print $2}'`
+        if test -z $PID
+        then
+          echo "It's a pity, onos is not running."
+          exit 1
+        else
+          echo "Wow, onos is running with PID $PID ^_^."
+          exit 0
+        fi
+        }
+
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  restart)
+        start
+        stop
+        ;;
+  status)
+        status
+        ;;
+  *)
+        echo "Please use: $0 {start|stop|status}"
+        exit 1
+        ;;
+esac

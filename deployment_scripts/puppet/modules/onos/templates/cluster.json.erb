@@ -1,0 +1,20 @@
+<% index = 1 -%>
+{"ipPrefix": "192.168.0.*",
+  "nodes": [
+	<%- @controllers_ip.each do |ip|  -%>
+        <%- if index == @controllers_ip.size -%>
+        {
+        "ip": "<%= ip -%>",
+        "id": "<%= ip -%>",
+        "tcpPort": 9876
+        }
+        <%- else -%>
+        {
+        "ip": "<%= ip -%>",
+        "id": "<%= ip -%>",
+        "tcpPort": 9876
+   	},
+        <%- end -%>
+        <%- index = index + 1 -%>
+        <%- end -%>
+]}
