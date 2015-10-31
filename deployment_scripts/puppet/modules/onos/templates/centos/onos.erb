@@ -16,6 +16,7 @@ stop(){
         PID=`ps aux | grep java | grep karaf | awk '{print $2}'`
         echo $"Stopping $prog $PID"
         kill -9 $PID
+	sleep 10
         }
 status(){
         PID=`ps aux | grep java | grep karaf | awk '{print $2}'`
@@ -37,8 +38,8 @@ case "$1" in
         stop
         ;;
   restart)
-        start
         stop
+        start
         ;;
   status)
         status
