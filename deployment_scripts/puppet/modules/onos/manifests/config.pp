@@ -9,7 +9,8 @@ file{ '/opt/onos_config.sh':
         source => "puppet:///modules/onos/onos_config.sh",
 } ->
 exec{ 'install onos config':
-        command => "sh /opt/onos_config.sh",
+        command => "sh /opt/onos_config.sh;
+	rm -rf /opt/onos_config.sh;",
         path => "/usr/bin:/usr/sbin:/bin:/sbin",
 }->
 exec{ 'onos boot features':

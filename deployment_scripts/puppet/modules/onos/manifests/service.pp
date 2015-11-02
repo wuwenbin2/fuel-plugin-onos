@@ -7,7 +7,7 @@ Exec{
 	logoutput => 'true',
 }
 
-firewall {'215 onos':
+firewall {'221 onos':
       port   => [6633, 6640, 6653, 8181, 8101,9876],
       proto  => 'tcp',
       action => 'accept',

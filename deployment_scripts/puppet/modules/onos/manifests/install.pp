@@ -48,7 +48,6 @@ exec{ "clean used files":
         command => "rm -rf /opt/*.tar*;
         rm -rf /opt/install_jdk8;
         rm -rf /opt/networking-onos;
-        rm -rf /opt/onos_config.sh;
         rm -rf /root/.m2/*.tar"
 }
 }

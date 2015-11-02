@@ -1,7 +1,7 @@
 {
     "nodes": [
-		<%- index = 1 -%>
-		<%- @controllers_ip.each do |ip| -%>
+	<%- index = 1 -%>
+	<%- @controllers_ip.each do |ip| -%>
         <%- if index == @controllers_ip.size -%>
         {
         "ip": "<%= ip %>",
@@ -19,7 +19,7 @@
         <%- end -%>
     	],
     "partitions": {
-		<%- key = 1 -%>
+	<%- key = 1 -%>
         <%- @controllers_ip.each do |ip| -%>
         <%- if key == @controllers_ip.size -%>
         "p<%= key -%>":[
