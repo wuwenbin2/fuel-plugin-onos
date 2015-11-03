@@ -1,27 +1,37 @@
 include onos
 
-$neutron_ovs_agent = $::operatingsystem ? {
-  'CentOS' => 'neutron-openvswitch-agent',
-  'Ubuntu' => 'neutron-plugin-openvswitch-agent',
-}
-
-$ovs_service = $::operatingsystem ? {
-  'CentOS' => 'openvswitch',
-  'Ubuntu' => 'openvswitch-switch',
-}
-
 Exec{path => "/usr/bin:/usr/sbin:/bin:/sbin",}
 
-$cmd_remove_agent = $operatingsystem ? {
-  'CentOS' => 'chkconfig --del neutron-openvswitch-agent',
-  'Ubuntu' => 'update-rc.d neutron-plugin-openvswitch-agent remove',
+case $::operatingsystem{
+centos:{
+	$neutron_ovs_agent='neutron-openvswitch-agent'
+	$ovs_service='openvswitch'
+	$cmd_remove_agent='chkconfig --del neutron-openvswitch-agent'
+}
+ubuntu:{
+	$neutron_ovs_agent='neutron-plugin-openvswitch-agent'
+	$ovs_service='openvswitch-switch'
+	$cmd_remove_agent='update-rc.d neutron-plugin-openvswitch-agent remove'
+}
+
+}
+
+$nodes_hash = hiera('nodes', {})
+$roles = node_roles($nodes_hash, hiera('uid'))
+
+
+if !member($roles, 'compute') {
+  cs_resource { "p_${neutron_ovs_agent}":
+    ensure => absent,
+    before => Exec['remove neutron-openvswitch-agent auto start'],
+  }
 }
 firewall{'222 vxlan':
       port   => [4789],
       proto  => 'udp',
       action => 'accept',
 }->
-exec{'remove neutron-plugin-openvswitch-agent auto start':
+exec{'remove neutron-openvswitch-agent auto start':
         command => "touch /opt/service;
         $cmd_remove_agent;
         sed -i /neutron-openvswitch-agent/d /opt/service",
