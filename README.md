@@ -1,25 +1,19 @@
 #ONOS Plugin for Fuel#
 
-##Overview##
+##Brief##
 
-This plugin will install onos controller and let it be the manager for OVS.
-
-
-* [ Open Network Operating System (ONOS) controller](https://wiki.onosproject.org/display/ONOS/Wiki+Home) is a controller of Software Define Network(SDN).
+This plugin will install [ Open Network Operating System (ONOS) controller](https://wiki.onosproject.org/display/ONOS/Wiki+Home), which is a typical SDN controller, and set it as a manager of ovs.
 
 
-##Requirements##
+##Notification##
 
 
-        | Requirement                       | Version/Comment |
-        |-----------------------------------|-----------------|
-        | Mirantis OpenStack compatibility  | 6.1             |
-
-##Limitations##
-
-
+* Fuel opentack version should be after 6.1.
 * Only supports the environment with network type: Neutron.
-* L3 traffic is not available of ONOS.
+* Live migration is supported.
+* Cluster of onos is supported.
+* L3 traffic is still on the way.
+
 
 ##Installation Guide##
 
@@ -29,33 +23,34 @@ This plugin will install onos controller and let it be the manager for OVS.
 
 1.  Log in Fuel Master and clone GIT repository of fuel-plugin-onos from openstack:
 
-        git clone https://github.com/stackforge/fuel-plugin-opendaylight
+        git clone https://github.com/openstack/fuel-plugin-onos
 
 2. Preparing an environment for plugin development
 in three easy steps:  
 A. Install the standard Linux development tools.  
 For Ubuntu 14.04 LTS, run:  
 
-		`sudo apt-get install createrepo rpm dpkg-dev`  
+		sudo apt-get install createrepo rpm dpkg-dev  
 For Centos 6.5, run:  
 
-		`yum install createrepo rpm rpm-build dpkg-devel`  
+		yum install createrepo rpm rpm-build dpkg-devel  
 B. Install the Fuel Plugin Builder. To do that, you should first get pip:
 
-		`easy_install pip`  
+		easy_install pip  
 C. Then, install Fuel Plugin Builder (fpb) itself:
 
-        `pip install fuel-plugin-builder`
+        pip install fuel-plugin-builder
     
 3. Build ONOS plugin for fuel:
 
         fpb --build fuel-plugin-onos/
 
-4. The onos rpm will be built in the folder of fuel-plugin-onos.
+4. The onos rpm will be built in the folder of fuel-plugin-onos.  
+Notice: Above steps aren't liminited with the environment of master, you can also make it everywhere, but after the rpm is made, you shoult copy it to the master.
 
 5. Install the onos plugin:
 
-        fuel plugins --install onos-[x.x.x].rpm
+        fuel plugins --install onos*.rpm
 
 6. Check if you successfully install the plugin:
 
@@ -67,7 +62,7 @@ C. Then, install Fuel Plugin Builder (fpb) itself:
 
      
 7. Check if the plugin is enabled on the settings table.      
-Note: the info of a new plugin can only be ready  when a new environment is created.
+Notice: the info of a new plugin can only be ready  when a new environment is created.
 
 
 ##User Guide##
@@ -77,13 +72,13 @@ Note: the info of a new plugin can only be ready  when a new environment is crea
 
 
 All action is with Fuel UI wizard.   
-1. Create a new environment.   
-2. Select 'onos plugin' on Settings tab.   
- 
+1.Create a new environment.   
+2.Select 'onos plugin' on Settings tab.   
+
     ☑ onos plugin 
 
-3. Select a node with role 'controller' and others with role 'compute'.
-Note: In avoid of deployging failure, pay attentions to node configuration espacelly interfaces. 
+3.Select a node with role 'controller' and others with role 'compute'.  
+Notice: In avoid of deployging failure, pay attentions to node configurations espacelly those for interfaces. 
 
         | interfaces   | useage                 |
         |--------------|------------------------|
@@ -92,7 +87,7 @@ Note: In avoid of deployging failure, pay attentions to node configuration espac
         | eht2         | Private                | 
         | eht3         | Public                 | 
 
-4. Click 'Deploy changes' to enable nodes with ONOS.  
+4.Click 'Deploy changes' to enable nodes with ONOS.  
 
 
 
@@ -103,12 +98,12 @@ In order to run ONOS, the following are required:
 - Java 8 JDK (Oracle Java recommended; OpenJDK is not as thoroughly tested)    
 - ONOS tarball( Newest version 1.3 recommended.)
 
-Note: In case of version problems, the onos rpm uses jdk and onos packages that have been tested.
+Notice: In case of version problems, the onos rpm uses jdk and onos packages that have been tested.
 
 ###Testing###
 
 1. Web UI is recommended for ONOS controller with tuitive information of topo, devices and etc.
-for that purpose, IP address of the primary controller should be ready. The web will run into the log page after inputing the path, the username and password are both karaf. Now enjot ONOS!
+For that purpose, IP address of the controller should be ready. The web will run into the log page after inputing the path, the username and password are both karaf. Now enjot ONOS!
 
         fuel node
 
@@ -119,7 +114,7 @@ for that purpose, IP address of the primary controller should be ready. The web 
 
  
 	Web UI: http://controller_ip:8181/onos/ui/index.html 
-2. CLI is capable of more diverse functionality by running/opt/onos/bin/onos.More about CLI can be found in [The ONOS CLI](
+2. CLI is capable of more diverse functionality by running /opt/onos/bin/onos. More about CLI can be found in [The ONOS CLI](
 https://wiki.onosproject.org/display/ONOS/The+ONOS+CLI).
 
 
