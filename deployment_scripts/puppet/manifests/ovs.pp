@@ -20,10 +20,21 @@ $nodes_hash = hiera('nodes', {})
 $roles = node_roles($nodes_hash, hiera('uid'))
 
 
-if !member($roles, 'compute') {
+if member($roles, 'compute') {
+
+exec{'remove neutron-openvswitch-agent auto start':
+        command => "touch /opt/service;
+        $cmd_remove_agent;
+        sed -i /neutron-openvswitch-agent/d /opt/service",
+    	before => Service["shut down and disable Neutron's agent services"],
+}
+}
+
+else
+{
   cs_resource { "p_${neutron_ovs_agent}":
     ensure => absent,
-    before => Exec['remove neutron-openvswitch-agent auto start'],
+    before => Service["shut down and disable Neutron's agent services"],
   }
 }
 firewall{'222 vxlan':
@@ -31,11 +42,6 @@ firewall{'222 vxlan':
       proto  => 'udp',
       action => 'accept',
 }->
-exec{'remove neutron-openvswitch-agent auto start':
-        command => "touch /opt/service;
-        $cmd_remove_agent;
-        sed -i /neutron-openvswitch-agent/d /opt/service",
-} ->
 service {"shut down and disable Neutron's agent services":
 		name => $neutron_ovs_agent,
 		ensure => stopped,
