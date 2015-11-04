@@ -2,7 +2,7 @@
 
 ##Brief##
 
-This plugin will install [ Open Network Operating System (ONOS) controller](https://wiki.onosproject.org/display/ONOS/Wiki+Home), which is a typical SDN controller, and set it as a manager of ovs.
+[ Open Network Operating System (ONOS) controller](https://wiki.onosproject.org/display/ONOS/Wiki+Home) is a typical SDN controller.This plugin will install it and set it as the manager of ovs.
 
 
 ##Notification##
