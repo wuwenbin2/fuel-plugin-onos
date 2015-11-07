@@ -6,7 +6,7 @@
   parameters:
     puppet_manifest: puppet/manifests/preliminary.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
-    timeout: 120
+    timeout: 600
 - id: onos_install
   role: ['primary-controller','controller']
   stage: post_deployment/4455
@@ -14,7 +14,7 @@
   parameters:
     puppet_manifest: puppet/manifests/install.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
-    timeout: 720
+    timeout: 600
 - id: onos_configure
   role: ['primary-controller','controller']
   stage: post_deployment/4465
@@ -22,7 +22,7 @@
   parameters:
     puppet_manifest: puppet/manifests/onos-service.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
-    timeout: 1400
+    timeout: 1800
 - id: ovs_config
   role: ['primary-controller','controller','compute']
   stage: post_deployment/4470
@@ -30,7 +30,7 @@
   parameters:
     puppet_manifest: puppet/manifests/ovs.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
-    timeout: 120
+    timeout: 600
 - id: onos_config_neutron
   role: ['primary-controller','controller']
   stage: post_deployment/4475
@@ -38,6 +38,6 @@
   parameters:
     puppet_manifest: puppet/manifests/neutron.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
-    timeout: 120
+    timeout: 600
 
 

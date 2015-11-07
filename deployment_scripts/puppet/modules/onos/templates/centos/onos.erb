@@ -1,4 +1,5 @@
 #!/bin/bash
+# chkconfig: 345 98 2
 # description: Open Network Operating System
 # onos    Startup script for onos
 # processname: onos
@@ -16,16 +17,16 @@ stop(){
         PID=`ps aux | grep java | grep karaf | awk '{print $2}'`
         echo $"Stopping $prog $PID"
         kill -9 $PID
-		sleep 10
+	sleep 10
         }
 status(){
         PID=`ps aux | grep java | grep karaf | awk '{print $2}'`
         if test -z $PID
         then
-          echo "ONOS is not running."
+          echo "onos stop/waiting"
           exit 1
         else
-          echo "ONOS is up with PID $PID."
+          echo "onos start/running, process $PID."
           exit 0
         fi
         }

@@ -16,27 +16,27 @@ ubuntu:{
 
 }
 
-$nodes_hash = hiera('nodes', {})
-$roles = node_roles($nodes_hash, hiera('uid'))
+$roles =  $onos::roles
 
-
-if member($roles, 'compute') {
-
+if member($roles, 'primary-controller') {
+service {'neutron-server':
+          ensure => stopped,
+          enable => false,
+}->
+cs_resource { "p_${neutron_ovs_agent}":
+    ensure => absent,
+    before => Service["shut down and disable Neutron's agent services"],
+  }}
+else{
 exec{'remove neutron-openvswitch-agent auto start':
         command => "touch /opt/service;
         $cmd_remove_agent;
         sed -i /neutron-openvswitch-agent/d /opt/service",
-    	before => Service["shut down and disable Neutron's agent services"],
+        before => Service["shut down and disable Neutron's agent services"],
 }
 }
 
-else
-{
-  cs_resource { "p_${neutron_ovs_agent}":
-    ensure => absent,
-    before => Service["shut down and disable Neutron's agent services"],
-  }
-}
+
 firewall{'222 vxlan':
       port   => [4789],
       proto  => 'udp',
@@ -55,8 +55,10 @@ exec{'Stop the OpenvSwitch service and clear existing OVSDB':
 
 } ->
 exec{'Set ONOS as the manager':
-        command => "su -s /bin/sh -c 'ovs-vsctl set-manager tcp:${onos::ovs_manager_ip}:6640'",
+        command => "su -s /bin/sh -c 'ovs-vsctl set-manager tcp:${onos::manager_ip}:6640'",
 
 }
+
+
 
 

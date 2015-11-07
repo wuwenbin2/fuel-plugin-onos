@@ -1,11 +1,14 @@
+include onos
+
 Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
 neutron_plugin_ml2 {
   'ml2/mechanism_drivers':       value => 'onos';
   'ml2/tenant_network_types':    value => 'vxlan';
   'ml2_onos/password':           value => 'admin';
   'ml2_onos/username':           value => 'admin';
-  'ml2_onos/url_path':           value => "http://$::ipaddress_br_mgmt:8181/onos/vtn";
+  'ml2_onos/url_path':           value => "http://${onos::manager_ip}:8181/onos/vtn";
 }->
+
 exec{ 'Configure Neutron3':
         command  => "mysql -e 'drop database if exists neutron;';
 		    mysql -e 'create database neutron character set utf8;';
@@ -14,18 +17,7 @@ exec{ 'Configure Neutron3':
 } ->
 exec{ 'restart neutron':
         command  => "service neutron-server restart",
-} ->
-service {'neutron-dhcp-agent':
-		ensure => running,
-        enable => true,	
-} ->
-service {'neutron-metadata-agent':
-        ensure => running,
-        enable => true,
-} ->
-service {'neutron-l3-agent':
-        ensure => running,
-        enable => true,
 }
+
 
 

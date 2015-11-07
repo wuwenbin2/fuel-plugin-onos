@@ -1,6 +1,7 @@
 
 class onos::service{
 
+
 Exec{
         path => "/usr/bin:/usr/sbin:/bin:/sbin",
         timeout => 320,
@@ -22,7 +23,18 @@ service{ 'onos':
 exec{ 'sleep 100 to stablize onos':
         command => 'sleep 100;'
 }->
+
+exec{ 'restart onos':
+        command => 'service onos restart',
+}->
+
+exec{ 'sleep 100 again to stablize onos':
+        command => 'sleep 100;'
+}->
 exec{ 'add onos auto start':
         command => 'echo "onos">>/opt/service',
+}->
+exec{ 'stop haproxy':
+        command => 'service haproxy stop',
 }
 }
