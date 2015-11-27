@@ -12,6 +12,12 @@ $controllers_ip = $onos::controllers_ip
 Haproxy::Service        { use_include => true }
 Haproxy::Balancermember { use_include => true }
   
+Exec{
+        path => "/usr/bin:/usr/sbin:/bin:/sbin",
+        timeout => 180,
+        logoutput => "true",
+}
+
 file{ '/opt/onos_config.sh':
         source => "puppet:///modules/onos/onos_config.sh",
 } ->
