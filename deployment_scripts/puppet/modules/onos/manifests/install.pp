@@ -32,11 +32,5 @@ file{ '/root/.m2/repository.tar':
 exec{ "unzip packages":
         command => "tar -zvxf /opt/$onos_pkg_name -C $onos_home  --strip-components 1 --no-overwrite-dir -k;
         tar xf /root/.m2/repository.tar -C /root/.m2/",
-}->
-exec{ "clean used files":
-        command => "rm -rf /opt/$onos_pkg_name;
-	rm -rf /opt/$jdk8_pkg_name
-        rm -rf /root/.m2/*.tar"
 }
- 
 }
