@@ -19,10 +19,6 @@ ubuntu:{
 $roles =  $onos::roles
 
 if member($roles, 'primary-controller') {
-service {'neutron-server':
-          ensure => stopped,
-          enable => false,
-}->
 cs_resource { "p_${neutron_ovs_agent}":
     ensure => absent,
     before => Service["shut down and disable Neutron's agent services"],
@@ -61,4 +57,8 @@ exec{'Set ONOS as the manager':
 
 
 
-
+if member($roles, 'compute') {
+exec{"net config":
+        command => "ifconfig eth3 up",
+}
+}

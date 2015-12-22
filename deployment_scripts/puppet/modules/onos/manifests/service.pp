@@ -31,10 +31,18 @@ exec{ 'restart onos':
 exec{ 'sleep 100 again to stablize onos':
         command => 'sleep 100;'
 }->
+exec{ 'restart onos again':
+        command => 'service onos restart',
+}->
+
+exec{ 'sleep 60 to stablize onos':
+        command => 'sleep 60;'
+}->
+
 exec{ 'add onos auto start':
         command => 'echo "onos">>/opt/service',
 }->
-exec{ 'stop haproxy':
-        command => 'service haproxy stop',
+exec{ 'set public port':
+        command => "/opt/onos/bin/onos \"externalportname-set -n eth3\""
 }
 }
