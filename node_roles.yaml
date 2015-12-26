@@ -1,5 +1,5 @@
 onos:
-  name: "onos controller"
+  name: "onos"
   description: "sdn controller"
   has_primary: false
   public_ip_required: false

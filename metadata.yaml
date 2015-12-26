@@ -3,7 +3,7 @@ name: onos
 # Human-readable name for your plugin
 title: onos plugin
 # Plugin version
-version: '0.7.1'
+version: '0.7.0'
 # Description
 description: 'Open Network Operating System (ONOS) is a typical SDN controller. Web-ui: http://horizon_ip:8181/onos/ui.'
 # Required fuel version
