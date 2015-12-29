@@ -25,11 +25,12 @@ This plugin will install [ Open Network Operating System (ONOS) controller](http
         git clone https://github.com/openstack/fuel-plugin-onos
 
 2. Preparing an environment for plugin development by three easy steps:
-A. Install the standard Linux development tools.  
-For Ubuntu 14.04 LTS, run:  
+A. Install the standard Linux development tools.
+
+    For Ubuntu 14.04 LTS, run:  
 
                 sudo apt-get install createrepo rpm dpkg-dev  
-For Centos 6.5, run:  
+    For Centos 6.5, run:  
 
                 yum install createrepo rpm rpm-build dpkg-devel  
 B. Install the Fuel Plugin Builder. To do that, you should first get pip:
@@ -70,14 +71,16 @@ Notice: the info of a new plugin can only be ready  when a new environment is cr
 
 
 All described actions below are described from a Fuel GUI provisioning perspective.
-1.Create a new environment.
-2.Select 'onos plugin' on Settings tab.
 
-     onos plugin 
+1. Create a new environment.
 
-3.Select a node with role 'controller' and others with role 'compute'.
+2. Select 'onos plugin' on Settings tab.
 
-4.Click 'Deploy changes' to enable nodes with ONOS.
+     onos plugin
+
+3. Select three nodes with role 'controller', three with role 'compute' and one with 'onos'.
+
+4. Click 'Deploy changes' to enable nodes with ONOSFW.
 
 
 
