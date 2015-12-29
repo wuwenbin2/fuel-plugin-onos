@@ -25,21 +25,25 @@ This plugin will install [ Open Network Operating System (ONOS) controller](http
         git clone https://github.com/openstack/fuel-plugin-onos
 
 2. Preparing an environment for plugin development by three easy steps:
-A. Install the standard Linux development tools.
 
-    For Ubuntu 14.04 LTS, run:  
+    A. Install the standard Linux development tools.
 
-                sudo apt-get install createrepo rpm dpkg-dev  
-    For Centos 6.5, run:  
+    For Ubuntu 14.04 LTS, run:
 
-                yum install createrepo rpm rpm-build dpkg-devel  
-B. Install the Fuel Plugin Builder. To do that, you should first get pip:
+                sudo apt-get install createrepo rpm dpkg-dev
+    For Centos 6.5, run:
 
-                easy_install pip  
-C. Then, install Fuel Plugin Builder (fpb) itself:
+                yum install createrepo rpm rpm-build dpkg-devel
 
-        pip install fuel-plugin-builder
-    
+    B. Install the Fuel Plugin Builder. To do that, you should first get pip:
+
+                easy_install pip
+
+     C. Then, install Fuel Plugin Builder (fpb) itself:
+
+
+            pip install fuel-plugin-builder
+
 3. Build ONOS plugin for fuel:
 
         fpb --build fuel-plugin-onos/
@@ -112,3 +116,4 @@ https://wiki.openstack.org/wiki/Fuel/Plugins).
 
 1.       Wu Wenbin <wuwenbin2@huawei.com>
 2.       Zhang Haoyu <zhanghaoyu7@huawei.com>
+
