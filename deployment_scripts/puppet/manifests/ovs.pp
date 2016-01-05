@@ -1,5 +1,6 @@
 include onos
 
+
 Exec{path => "/usr/bin:/usr/sbin:/bin:/sbin",}
 
 case $::operatingsystem{
@@ -56,9 +57,21 @@ exec{'Set ONOS as the manager':
 }
 
 
-
+$public_eth = $onos::public_eth
 if member($roles, 'compute') {
 exec{"net config":
-        command => "ifconfig eth3 up",
+        command => "ifconfig $public_eth up",
 }
 }
+else
+{
+exec{"sleep 20 for ovsconnect":
+        command => "sleep 20",
+        require => Exec['Set ONOS as the manager'],
+}->
+exec{"delete public port from ovs of controllers":
+        command => "ovs-vsctl del-port br-int $public_eth",
+}
+}
+
+

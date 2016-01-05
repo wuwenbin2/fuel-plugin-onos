@@ -100,3 +100,6 @@ openstack::network::create_network{'net04':
     tenant_name      => 'admin',
 }
 }
+
+
+

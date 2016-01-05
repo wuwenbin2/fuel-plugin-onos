@@ -20,9 +20,12 @@ This plugin will install [ Open Network Operating System (ONOS) controller](http
 ###ONOS plugin installation###
 
 
-1.  Log in Fuel Master and clone GIT repository of fuel-plugin-onos from openstack:
+1. Log in Fuel Master and clone GIT repository of fuel-plugin-onos from openstack:
 
-        git clone https://github.com/openstack/fuel-plugin-onos
+        git clone git://git.openstack.org/openstack/fuel-plugin-onos
+
+Notice: Branch Kilo: ONOS service is in a new node.
+	Branch 7.1: ONOS service is in the controller. 
 
 2. Preparing an environment for plugin development by three easy steps:
 
@@ -30,26 +33,25 @@ This plugin will install [ Open Network Operating System (ONOS) controller](http
 
     For Ubuntu 14.04 LTS, run:
 
-                sudo apt-get install createrepo rpm dpkg-dev
+        sudo apt-get install createrepo rpm dpkg-dev
     For Centos 6.5, run:
 
-                yum install createrepo rpm rpm-build dpkg-devel
+        yum install createrepo rpm rpm-build dpkg-devel
 
     B. Install the Fuel Plugin Builder. To do that, you should first get pip:
 
-                easy_install pip
+        easy_install pip
 
      C. Then, install Fuel Plugin Builder (fpb) itself:
 
 
-            pip install fuel-plugin-builder
+        pip install fuel-plugin-builder
 
 3. Build ONOS plugin for fuel:
 
         fpb --build fuel-plugin-onos/
 
 4. The onos rpm will be built in the folder of fuel-plugin-onos.
-Notice: Above steps aren't liminited with the environment of master, you can also make it everywhere, but after the rpm is made, you shoult copy it to the master.
 
 5. Install the onos plugin:
 
@@ -64,8 +66,9 @@ Notice: Above steps aren't liminited with the environment of master, you can als
         1  | onos   | 0.7.0   | 3.0.0
 
      
-7. Check if the plugin is enabled on the settings table.      
-Notice: the info of a new plugin can only be ready  when a new environment is created.
+7. Check if the plugin is enabled on the settings table.
+
+Notice: Step 1-4 aren't limitted with the environment of master, you can also make it everywhere, but after the rpm is made, you should copy it to the master. In addition, the info of a new plugin at settings table can only be ready  when a new environment is created.
 
 
 ##User Guide##
@@ -82,7 +85,7 @@ All described actions below are described from a Fuel GUI provisioning perspecti
 
      onos plugin
 
-3. Select three nodes with role 'controller', three with role 'compute' and one with 'onos'.
+3. Select three nodes with role 'controller', three with role 'compute' and one with 'onos' if you select branch Kilo.
 
 4. Click 'Deploy changes' to enable nodes with ONOSFW.
 

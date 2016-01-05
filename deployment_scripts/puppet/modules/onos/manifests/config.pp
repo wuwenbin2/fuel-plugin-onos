@@ -48,8 +48,4 @@ case $::operatingsystem {
 }}}
 
 
-#if !member($roles, 'compute') {
-#    include onos::ha::haproxy
-#}
-
 }
