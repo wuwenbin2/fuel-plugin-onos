@@ -1,3 +1,4 @@
+include onos
 
 Exec{
         path => "/usr/bin:/usr/sbin:/bin:/sbin",
@@ -8,6 +9,7 @@ Exec{
 $neutron_settings = hiera_hash('quantum_settings')
 $nets = $neutron_settings['predefined_networks']
 $gateway_ip = $nets['net04_ext']['L3']['gateway']
+$public_eth = $onos::public_eth
 
 file{ "/opt/netconfig.sh":
         ensure => file,

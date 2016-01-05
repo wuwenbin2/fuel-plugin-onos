@@ -20,9 +20,9 @@ This plugin will install [ Open Network Operating System (ONOS) controller](http
 ###ONOS plugin installation###
 
 
-1.  Log in Fuel Master and clone GIT repository of fuel-plugin-onos from openstack:
+1. Log in Fuel Master and clone GIT repository of fuel-plugin-onos from openstack:
 
-        git clone http://git.openstack.org/cgit/openstack/fuel-plugin-onos/
+        git clone -b kilo git://git.openstack.org/openstack/fuel-plugin-onos
 
 2. Preparing an environment for plugin development by three easy steps:
 
@@ -48,8 +48,7 @@ This plugin will install [ Open Network Operating System (ONOS) controller](http
 
         fpb --build fuel-plugin-onos/
 
-4. The onos rpm will be built in the folder of fuel-plugin-onos.  
-Notice: Above steps aren't liminited with the environment of master, you can also make it everywhere, but after the rpm is made, you shoult copy it to the master.
+4. The onos rpm will be built in the folder of fuel-plugin-onos.
 
 5. Install the onos plugin:
 
@@ -64,8 +63,9 @@ Notice: Above steps aren't liminited with the environment of master, you can als
         1  | onos   | 0.7.0   | 3.0.0
 
      
-7. Check if the plugin is enabled on the settings table.  
-Notice: the info of a new plugin can only be ready  when a new environment is created.
+7. Check if the plugin is enabled on the settings table.
+
+Notice: Step 1-4 aren't limitted with the environment of master, you can also make it everywhere, but after the rpm is made, you should copy it to the master. In addition, the info of a new plugin at settings table can only be ready  when a new environment is created.
 
 
 ##User Guide##
@@ -116,3 +116,4 @@ https://wiki.openstack.org/wiki/Fuel/Plugins).
 
 1.       Wu Wenbin <wuwenbin2@huawei.com>
 2.       Zhang Haoyu <zhanghaoyu7@huawei.com>
+
