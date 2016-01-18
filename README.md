@@ -22,10 +22,7 @@ This plugin will install [ Open Network Operating System (ONOS) controller](http
 
 1. Log in Fuel Master and clone GIT repository of fuel-plugin-onos from openstack:
 
-        git clone git://git.openstack.org/openstack/fuel-plugin-onos
-
-Notice: Branch Kilo: ONOS service is in a new node.
-	Branch 7.1: ONOS service is in the controller. 
+        git clone -b kilo git://git.openstack.org/openstack/fuel-plugin-onos
 
 2. Preparing an environment for plugin development by three easy steps:
 
@@ -85,7 +82,7 @@ All described actions below are described from a Fuel GUI provisioning perspecti
 
      onos plugin
 
-3. Select three nodes with role 'controller', three with role 'compute' and one with 'onos' if you select branch Kilo.
+3. Select three nodes with role 'controller', three with role 'compute' and one with 'onos'.
 
 4. Click 'Deploy changes' to enable nodes with ONOSFW.
 

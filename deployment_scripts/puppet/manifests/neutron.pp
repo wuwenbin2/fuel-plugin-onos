@@ -26,7 +26,6 @@ $network_type = 'vxlan'
 if member($roles, 'primary-controller') {
 cs_resource { 'p_neutron-l3-agent':
       ensure => absent,
-      require => Exec ['stop neutron'],
 }->
 exec{ 'delete Neutron db':
         command  => "mysql -e 'drop database if exists neutron;';
@@ -39,10 +38,6 @@ exec{ 'delete Neutron db':
 }
 
 
-
-exec{ 'stop neutron':
-        command  => "service neutron-server stop",
-}
 package { 'install git':
   ensure => installed,
   name   => "git",
@@ -58,19 +53,7 @@ exec{ 'install onos driver':
         command => "sh /opt/onos_driver.sh;"
 }->
 
-neutron_config { 'DEFAULT/service_plugins': 
-	value => 'onos_router,neutron.services.metering.metering_plugin.MeteringPlugin'; 
-}->
 
-
-neutron_plugin_ml2 {
-  'ml2/mechanism_drivers':       value => 'onos_ml2';
-  'ml2/tenant_network_types':    value => 'vxlan';
-  'ml2_type_vxlan/vni_ranges':   value => '100:50000';
-  'onos/password':           value => 'admin';
-  'onos/username':           value => 'admin';
-  'onos/url_path':           value => "http://${onos::manager_ip}:8181/onos/vtn";
-}->
 service {'start neutron service':
          name => "neutron-server",
          ensure => running
@@ -100,6 +83,3 @@ openstack::network::create_network{'net04':
     tenant_name      => 'admin',
 }
 }
-
-
-

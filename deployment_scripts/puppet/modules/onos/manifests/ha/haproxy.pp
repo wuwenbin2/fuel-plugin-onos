@@ -21,18 +21,16 @@ class onos::ha::haproxy {
 
   $public_vip = hiera('public_vip')
   $management_vip = hiera('management_vip')
-  $nodes = hiera('nodes')
-  $primary_controller = filter_nodes($nodes,'role','primary-controller')
-  $controllers = concat($primary_controller, filter_nodes($nodes,'role','controller'))
-  $controllers_ip = filter_hash($controllers, 'internal_address')
-  $controllers_names = filter_hash($controllers, 'name')
+  $nodes_hash = hiera('nodes')
+  $primary_controller_nodes = filter_nodes($nodes_hash,'role','primary-controller')
+  $onos_controllers = filter_nodes($nodes_hash,'role','onos')
 
   # defaults for any haproxy_service within this class
   Openstack::Ha::Haproxy_service {
       internal_virtual_ip => $management_vip,
-      ipaddresses         => $controllers_ip,
+      ipaddresses         => filter_hash($onos_controllers, 'internal_address'),
       public_virtual_ip   => $public_vip,
-      server_names        => $controllers_names,
+      server_names        => filter_hash($onos_controllers, 'name'),
       public              => true,
       internal            => true,
   }

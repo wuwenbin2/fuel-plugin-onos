@@ -5,7 +5,9 @@ $roles = node_roles($nodes, hiera('uid'))
 
 $onos_settings = hiera('onos')
 $public_eth = $onos_settings['public_eth']
-$manager_ip = $primary_controller[0]['internal_address']
+$onos_hash = filter_nodes($nodes,'role','onos')
+$manager_ip = filter_hash($onos_hash, 'internal_address')
+$onos_names = filter_hash($onos_hash, 'name')
 
 $onos_home = '/opt/onos'
 $onos_pkg_url = 'http://downloads.onosproject.org/release/onos-1.3.0.tar.gz'
