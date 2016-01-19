@@ -53,12 +53,30 @@
   required_for: [post_deployment_end]
   type: puppet
   parameters:
-    puppet_manifest: puppet/manifests/neutron.pp
+    puppet_manifest: puppet/manifests/neutron-config.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 1800
+- id: onos_create_neutron_db
+  role: ['primary-controller']
+  requires: [onos_config_neutron]
+  required_for: [post_deployment_end]
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/neutron-db.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 1800
+- id: onos_start_neutron
+  role: ['primary-controller', 'controller']
+  requires: [onos_create_neutron_db]
+  required_for: [post_deployment_end]
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/neutron-start.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
     timeout: 1800
 - id: onos_config_net
   role: [onos]
-  requires: [onos_config_neutron]
+  requires: [onos_start_neutron]
   required_for: [post_deployment_end]
   type: puppet
   parameters:
