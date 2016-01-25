@@ -3,7 +3,8 @@ $nodes = hiera('nodes')
 $primary_controller = filter_nodes($nodes,'role','primary-controller')
 $roles = node_roles($nodes, hiera('uid'))
 
-#$onos_settings = hiera('onos')
+$onos_settings = hiera('onos')
+$public_eth = $onos_settings['public_eth']
 $onos_hash = filter_nodes($nodes,'role','onos')
 $manager_ip = filter_hash($onos_hash, 'internal_address')
 $onos_names = filter_hash($onos_hash, 'name')

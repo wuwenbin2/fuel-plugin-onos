@@ -1,7 +1,7 @@
 
 class onos::service{
 
-
+$public_eth = $onos::public_eth
 Exec{
         path => "/usr/bin:/usr/sbin:/bin:/sbin",
         timeout => 320,
@@ -43,6 +43,6 @@ exec{ 'add onos auto start':
         command => 'echo "onos">>/opt/service',
 }->
 exec{ 'set public port':
-        command => "/opt/onos/bin/onos \"externalportname-set -n eth3\""
+        command => "/opt/onos/bin/onos \"externalportname-set -n $public_eth\""
 }
 }

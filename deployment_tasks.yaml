@@ -5,8 +5,7 @@
   type: group
   role: [onos]
   requires: [deploy_start]
-  required_for: [deploy_end, primary-controller, controller]
-  tasks: [fuel_pkgs, hiera, globals, tools, logging, netconfig,
+  tasks: [hiera, setup_repositories, fuel_pkgs, globals, tools, logging,
         hosts, firewall, deploy_start, onos_install]
   parameters:
     strategy:
@@ -15,7 +14,7 @@
   type: puppet
   groups: [onos]
   requires: [deploy_start, hosts, firewall, globals]
-  required_for: [deploy_end, openstack-network]
+  required_for: [deploy_end, openstack-network-start]
   parameters:
     puppet_manifest: puppet/manifests/onos-install.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
@@ -53,12 +52,30 @@
   required_for: [post_deployment_end]
   type: puppet
   parameters:
-    puppet_manifest: puppet/manifests/neutron.pp
+    puppet_manifest: puppet/manifests/neutron-config.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 1800
+- id: onos_create_neutron_db
+  role: ['primary-controller']
+  requires: [onos_config_neutron]
+  required_for: [post_deployment_end]
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/neutron-db.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 1800
+- id: onos_start_neutron
+  role: ['primary-controller', 'controller']
+  requires: [onos_create_neutron_db]
+  required_for: [post_deployment_end]
+  type: puppet
+  parameters:
+    puppet_manifest: puppet/manifests/neutron-start.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
     timeout: 1800
 - id: onos_config_net
   role: [onos]
-  requires: [onos_config_neutron]
+  requires: [onos_start_neutron]
   required_for: [post_deployment_end]
   type: puppet
   parameters:

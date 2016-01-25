@@ -1,0 +1,19 @@
+#!/bin/bash
+
+set -eux
+
+
+source /root/openrc 
+neutron net-create --format=shell  --provider:network_type=<%= @int_network_type %> --provider:segmentation_id=1000 admin_internal_net
+
+neutron subnet-create --format=shell --name=admin_internal_net__subnet --gateway-ip=<%= @int_gateway_ip %> --enable-dhcp --dns-nameserver=<%= @dns_1 %> --dns-nameserver=<%= @dns_2 %>  admin_internal_net <%= @int_subnet %>
+
+neutron net-create --format=shell  --provider:network_type=<%= @ext_network_type %> --router:external admin_floating_net
+
+neutron subnet-create --format=shell --name=admin_floating_net__subnet --gateway-ip=<%= @ext_gateway_ip %> --disable-dhcp  admin_floating_net <%= @ext_subnet %>
+
+neutron router-create --format=shell router04
+neutron router-interface-add --format=shell router04 subnet=admin_internal_net__subnet
+neutron router-gateway-set router04 admin_floating_net
+
+

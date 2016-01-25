@@ -1,17 +1,18 @@
 include onos
 
+
 Exec{path => "/usr/bin:/usr/sbin:/bin:/sbin",}
 
 case $::operatingsystem{
 centos:{
-	$neutron_ovs_agent='neutron-openvswitch-agent'
-	$ovs_service='openvswitch'
-	$cmd_remove_agent='chkconfig --del neutron-openvswitch-agent'
+        $neutron_ovs_agent='neutron-openvswitch-agent'
+        $ovs_service='openvswitch'
+        $cmd_remove_agent='chkconfig --del neutron-openvswitch-agent'
 }
 ubuntu:{
-	$neutron_ovs_agent='neutron-plugin-openvswitch-agent'
-	$ovs_service='openvswitch-switch'
-	$cmd_remove_agent='update-rc.d neutron-plugin-openvswitch-agent remove'
+        $neutron_ovs_agent='neutron-plugin-openvswitch-agent'
+        $ovs_service='openvswitch-switch'
+        $cmd_remove_agent='update-rc.d neutron-plugin-openvswitch-agent remove'
 }
 
 }
@@ -39,9 +40,9 @@ firewall{'222 vxlan':
       action => 'accept',
 }->
 service {"shut down and disable Neutron's agent services":
-		name => $neutron_ovs_agent,
-		ensure => stopped,
-		enable => false,
+                name => $neutron_ovs_agent,
+                ensure => stopped,
+                enable => false,
 }->
 exec{'Stop the OpenvSwitch service and clear existing OVSDB':
         command =>  "service $ovs_service stop ;
@@ -56,9 +57,19 @@ exec{'Set ONOS as the manager':
 }
 
 
-
+$public_eth = $onos::public_eth
 if member($roles, 'compute') {
 exec{"net config":
-        command => "ifconfig eth3 up",
+        command => "ifconfig $public_eth up",
+}
+}
+else
+{
+exec{"sleep 20 for ovsconnect":
+        command => "sleep 20",
+        require => Exec['Set ONOS as the manager'],
+}->
+exec{"delete public port from ovs of controllers":
+        command => "ovs-vsctl del-port br-int $public_eth",
 }
 }
