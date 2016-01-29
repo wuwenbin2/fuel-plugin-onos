@@ -1,7 +1,11 @@
 include onos
 
 
-Exec{path => "/usr/bin:/usr/sbin:/bin:/sbin",}
+Exec{
+        path => "/usr/bin:/usr/sbin:/bin:/sbin",
+        timeout => 180,
+        logoutput => "true",
+}
 
 case $::operatingsystem{
 centos:{
@@ -57,10 +61,23 @@ exec{'Set ONOS as the manager':
 }
 
 
-$public_eth = $onos::public_eth
+
+$network_scheme=hiera(network_scheme)
+$transformations=$network_scheme[transformations]
+$add_port=filter_nodes($transformations,'bridge','br-ex')
+$public_eth_hash=filter_hash($add_port,'name')
+$public_eth=$public_eth_hash[0]
+
 if member($roles, 'compute') {
-exec{"net config":
-        command => "ifconfig $public_eth up",
+file{ "/opt/portconfig.sh":
+        ensure => file,
+        content => template('onos/portconfig.sh.erb'),
+}->
+exec{ 'set port':
+        command => "sh /opt/portconfig.sh;
+        rm -rf /opt/portconfig.sh;",
+        before => Exec['Set ONOS as the manager'],
+        require => Exec['Stop the OpenvSwitch service and clear existing OVSDB'],
 }
 }
 else
@@ -70,6 +87,6 @@ exec{"sleep 20 for ovsconnect":
         require => Exec['Set ONOS as the manager'],
 }->
 exec{"delete public port from ovs of controllers":
-        command => "ovs-vsctl del-port br-int $public_eth",
+        command => "ovs-vsctl del-port br-int onos_port2",
 }
 }

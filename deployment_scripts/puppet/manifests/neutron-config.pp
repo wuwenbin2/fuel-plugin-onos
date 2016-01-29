@@ -40,9 +40,6 @@ file{ "/etc/puppet/modules/openstack/manifests/network/create_network.pp":
 }->
 file{ "/etc/puppet/modules/openstack/manifests/network/create_router.pp":
         source => "puppet:///modules/onos/create_router.pp",
-}->
-file{ "/etc/puppet/modules/osnailyfacter/lib/puppet/parser/functions/format_allocation_pools.rb":
-        source => "puppet:///modules/onos/format_allocation_pools.rb",
 }
 
 
