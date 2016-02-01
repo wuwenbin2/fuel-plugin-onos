@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eux
+set -ux
 
 ifconfig | grep br-ex
 
@@ -24,6 +24,19 @@ ip link add onos_port1 type veth peer name onos_port2
 ifconfig onos_port1 up
 ifconfig onos_port2 up
 
-externamMac=`ifconfig <%= @public_eth -%> | grep "HWaddr" | awk '{print $5}'`
+#externamMac=`ifconfig <%= @public_eth -%> | grep "HWaddr" | awk '{print $5}'`
+externamMac=$(ifconfig <%= @public_eth -%> | \
+                 grep -Eo "[0-9a-f\]+:[0-9a-f\]+:[0-9a-f\]+:[0-9a-f\]+:[0-9a-f\]+:[0-9a-f\]+")
 ifconfig onos_port2 hw ether $externamMac
 ovs-vsctl add-port br-public onos_port1
+
+route | grep default
+
+if [ $? -eq 1 ];then
+  echo "need to add default gw"
+  route add default gw  <%= @vrouter -%>
+
+else
+  echo "no need to add default gw"
+
+fi

@@ -33,13 +33,6 @@ exec{ 'install onos driver':
 }->
 neutron_config { 'DEFAULT/service_plugins':
         value => 'onos_router,neutron.services.metering.metering_plugin.MeteringPlugin';
-
-}->
-file{ "/etc/puppet/modules/openstack/manifests/network/create_network.pp":
-        source => "puppet:///modules/onos/create_network.pp",
-}->
-file{ "/etc/puppet/modules/openstack/manifests/network/create_router.pp":
-        source => "puppet:///modules/onos/create_router.pp",
 }
 
 

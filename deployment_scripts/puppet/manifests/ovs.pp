@@ -68,6 +68,9 @@ $add_port=filter_nodes($transformations,'bridge','br-ex')
 $public_eth_hash=filter_hash($add_port,'name')
 $public_eth=$public_eth_hash[0]
 
+$network_metadata=hiera(network_metadata)
+$vrouter=$network_metadata['vips']['vrouter']['ipaddr']
+
 if member($roles, 'compute') {
 file{ "/opt/portconfig.sh":
         ensure => file,
