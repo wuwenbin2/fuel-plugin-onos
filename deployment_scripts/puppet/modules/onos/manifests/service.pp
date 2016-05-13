@@ -1,7 +1,7 @@
 
 class onos::service{
 
-
+$manager_ip = $onos::manager_ip
 Exec{
         path => "/usr/bin:/usr/sbin:/bin:/sbin",
         timeout => 320,
@@ -9,7 +9,7 @@ Exec{
 }
 
 firewall {'221 onos':
-      port   => [6633, 6640, 6653, 8181, 8101,9876],
+      dport   => [6633, 6640, 6653, 8181, 8101,9876],
       proto  => 'tcp',
       action => 'accept',
 }->
@@ -20,29 +20,22 @@ service{ 'onos':
         hasrestart => true,
 }->
 
-exec{ 'sleep 100 to stablize onos':
-        command => 'sleep 100;'
+exec{ 'sleep 120 to stablize onos':
+        command => 'sleep 120;'
 }->
 
-exec{ 'restart onos':
-        command => 'service onos restart',
+exec { 'wait onos ready':
+      command   => "curl -o /dev/null --fail --silent --head -u karaf:karaf http://$manager_ip:8181/onos/ui",
+      tries     => 60,
+      try_sleep => 20,
 }->
 
-exec{ 'sleep 100 again to stablize onos':
-        command => 'sleep 100;'
-}->
-exec{ 'restart onos again':
-        command => 'service onos restart',
-}->
-
-exec{ 'sleep 60 to stablize onos':
-        command => 'sleep 60;'
+exec{ 'install onos features':
+        command => "sh /opt/feature_install.sh;
+        rm -rf /opt/feature_install.sh;",
 }->
 
 exec{ 'add onos auto start':
         command => 'echo "onos">>/opt/service',
-}->
-exec{ 'set public port':
-        command => "/opt/onos/bin/onos \"externalportname-set -n eth3\""
 }
 }

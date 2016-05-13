@@ -1,7 +1,6 @@
 
 class onos::install{
 $onos_home = $onos::onos_home
-$onos_pkg_url = $onos::onos_pkg_url
 $karaf_dist = $onos::karaf_dist
 $onos_pkg_name = $onos::onos_pkg_name
 $jdk8_pkg_name = $onos::jdk8_pkg_name

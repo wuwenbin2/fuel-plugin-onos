@@ -2,12 +2,16 @@
 set -eux
 DIR="$(dirname `readlink -f $0`)"
 TARGET="${DIR}/deployment_scripts/puppet/modules/onos/files"
-onos=http://205.177.226.235:9999/onosfw/onos-1.3.0.tar.gz
-jdk=http://205.177.226.235:9999/onosfw/jdk-8u51-linux-x64.tar.gz
-repo=http://205.177.226.235:9999/onosfw/repository.tar
+onos=http://downloads.onosproject.org/nightly/onos-1.6.0.latest-NIGHTLY.tar.gz
+jdk=http://205.177.226.237:9999/onosfw/jdk-8u51-linux-x64.tar.gz
+repo=http://205.177.226.237:9999/onosfw/repository.tar
+onos_target=onos-1.6.0.tar.gz
 cd $TARGET
-if [ ! -f "onos-1.3.0.tar.gz" ]; then
-  wget  $onos -P $TARGET
+if [ ! -f $onos_target ]; then
+  wget  $onos -P $TARGET -O $onos_target
+fi
+
+if [ ! -f "jdk-8u51-linux-x64.tar.gz" ]; then
   wget  $jdk -P $TARGET
   wget  $repo -P $TARGET
 fi

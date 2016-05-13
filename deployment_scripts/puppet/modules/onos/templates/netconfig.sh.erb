@@ -1,10 +1,9 @@
 #!/bin/bash
 
-set -eux
-ifconfig eth3 <%= @gateway_ip -%>00/24 up
-route add default gw <%= @gateway_ip %>
+set -ux
+
 ping -c 5 <%= @gateway_ip %>
-gatewayMac=`arp -a <%= @gateway_ip -%> | awk '{print $4}'`
+#gatewayMac=`arp -a <%= @gateway_ip -%> | awk '{print $4}'`
+gatewayMac=$(arp -a <%= @gateway_ip -%> | grep -Eo "[0-9a-f\]+:[0-9a-f\]+:[0-9a-f\]+:[0-9a-f\]+:[0-9a-f\]+:[0-9a-f\]+")
+
 /opt/onos/bin/onos "externalgateway-update -m $gatewayMac"
-ifconfig eth3 down
-route del default gw <%= @gateway_ip %>

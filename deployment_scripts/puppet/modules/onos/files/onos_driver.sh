@@ -7,4 +7,5 @@ cd /opt
 tar xf networking-onos.tar
 cd networking-onos
 python setup.py install
+rm -rf /opt/networking-onos*
 
