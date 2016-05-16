@@ -18,7 +18,6 @@ else{
 
 service {$neutron_ovs_agent:
         ensure => stopped,
-        enable => false,
         before => Exec['Delete manager'],
 }
 }
@@ -37,14 +36,23 @@ exec{'Delete manager':
 
 exec{'Delete br-prv':
         command =>  "ovs-vsctl del-br br-prv",
+        onlyif  => "ovs-vsctl br-exists br-prv",
+}->
+
+exec{'Delete br-tun':
+        command =>  "ovs-vsctl del-br br-tun",
+        onlyif  => "ovs-vsctl br-exists br-tun",
 }->
 
 exec{'Delete br-int':
         command =>  "ovs-vsctl del-br br-int",
+        onlyif => "ovs-vsctl br-exists br-int",
 }->
 
 exec{'Delete br-floating':
-        command =>  "ovs-vsctl del-br br-floating",
+        command => "ovs-vsctl del-br br-floating",
+        onlyif  => "ovs-vsctl br-exists br-floating",
+
 }->
 
 exec{'Ovs show':

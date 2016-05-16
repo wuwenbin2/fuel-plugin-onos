@@ -99,3 +99,13 @@
     puppet_manifest: puppet/manifests/netconfig.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
     timeout: 600
+- id: onos_dashboard_registration
+  type: puppet
+  role: [primary-controller]
+  required_for: [post_deployment_end]
+  requires: [post_deployment_start]
+  version: 2.0.0
+  parameters:
+    puppet_manifest: puppet/manifests/onos-dashboard.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 180
