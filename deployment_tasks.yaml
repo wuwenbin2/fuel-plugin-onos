@@ -31,7 +31,9 @@
   type: puppet
   version: 2.0.0
   role: [primary-controller,controller]
-  requires: [onos_service]
+  cross-depends:
+     - name: onos_service
+  requires: [post_deployment_start]
   required_for: [post_deployment_end]
   parameters:
     puppet_manifest: puppet/manifests/onos-ha.pp
@@ -63,41 +65,24 @@
   type: puppet
   version: 2.0.0
   role: [primary-controller,controller]
-  requires: [onos_config_ovs_controller,onos_config_ovs_compute]
+  cross-depends:
+     - name: onos_config_ovs_compute
+  requires: [onos_config_ovs_controller]
   required_for: [post_deployment_end]
   parameters:
     puppet_manifest: puppet/manifests/neutron-config.pp
-    puppet_modules: puppet/modules:/etc/puppet/modules
-    timeout: 1800
-- id: onos_create_neutron_db
-  type: puppet
-  version: 2.0.0
-  role: [primary-controller]
-  requires: [onos_config_neutron]
-  required_for: [post_deployment_end]
-  parameters:
-    puppet_manifest: puppet/manifests/neutron-db.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
     timeout: 1800
 - id: onos_start_neutron
   type: puppet
   version: 2.0.0
   role: [primary-controller,controller]
-  requires: [onos_create_neutron_db]
+  requires: [onos_config_neutron]
   required_for: [post_deployment_end]
   parameters:
     puppet_manifest: puppet/manifests/neutron-start.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
     timeout: 1800
-- id: onos_config_net
-  type: puppet
-  version: 2.0.0
-  role: [onos]
-  requires: [onos_start_neutron]
-  required_for: [post_deployment_end]
-  parameters:
-    puppet_manifest: puppet/manifests/netconfig.pp
-    puppet_modules: puppet/modules:/etc/puppet/modules
     timeout: 600
 - id: onos_dashboard_registration
   type: puppet

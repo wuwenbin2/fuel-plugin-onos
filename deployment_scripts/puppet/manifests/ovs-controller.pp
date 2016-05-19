@@ -46,7 +46,7 @@ exec{'Delete br-tun':
 
 exec{'Delete br-int':
         command =>  "ovs-vsctl del-br br-int",
-        onlyif => "ovs-vsctl br-exists br-int",
+        onlyif  => "ovs-vsctl br-exists br-int",
 }->
 
 exec{'Delete br-floating':

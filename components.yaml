@@ -1,5 +1,5 @@
 - name: 'network:neutron:onos:tun'
-  label: 'onos with tunneling segmentation'
+  label: 'onos based on neutron tunneling segmentation'
   description: 'Use Neutron with networking-onos driver'
   bind: !!pairs
     - "cluster:net_provider": "neutron"
@@ -8,7 +8,7 @@
     - name: 'hypervisor:kvm'
     - name: 'hypervisor:qemu'
 - name: 'network:neutron:onos:vlan'
-  label: 'onos with vlan segmentation'
+  label: 'onos based on neutron vlan segmentation'
   description: 'Use Neutron with networking-onos driver'
   bind: !!pairs
     - "cluster:net_provider": "neutron"

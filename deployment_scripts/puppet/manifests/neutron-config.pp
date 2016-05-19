@@ -21,19 +21,42 @@ package { 'install git':
   ensure => installed,
   name   => "git",
 }->
+
 file{ "/opt/networking-onos.tar":
         source => "puppet:///modules/onos/networking-onos.tar",
 }->
+
 file{ '/opt/onos_driver.sh':
         source => "puppet:///modules/onos/onos_driver.sh",
-} ->
+}->
+
 exec{ 'install onos driver':
         command => "sh /opt/onos_driver.sh;"
-
 }->
+
 neutron_config { 'DEFAULT/service_plugins':
         value => 'onos_router,neutron.services.metering.metering_plugin.MeteringPlugin';
 }
 
+if roles_include(['primary-controller']) {
+  exec { 'disable neutron l3 agent':
+    command => "crm resource stop neutron-l3-agent",
+    require => Service ['stop neutron service'],
+  }->
 
+  exec { 'drop_neutron_db':
+    command => "sudo mysql -e 'drop database if exists neutron;'",
+  }->
 
+  exec { 'create_neutron_db':
+    command => "sudo mysql -e 'create database neutron character set utf8;'",
+  }->
+
+  exec { 'grant_neutron_db':
+    command => "sudo mysql -e \"grant all on neutron.* to 'neutron'@'%';\"",
+  }->
+
+  exec { 'neutron_db_sync':
+    command => 'neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugin.ini upgrade head',
+  }
+}
