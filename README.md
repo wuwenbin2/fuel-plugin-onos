@@ -8,7 +8,7 @@ This plugin will install [ Open Network Operating System (ONOS) controller](http
 ##Notification##
 
 
-* Fuel opentack version should be 8.0.
+* Fuel opentack version should be 9.0.
 * Only supports the environment with network type: Neutron.
 * Live migration is supported.
 * L2 and L3 traffic are supported.
@@ -61,7 +61,7 @@ This plugin will install [ Open Network Operating System (ONOS) controller](http
 
         id | name   | version | package_version
         ---|--------|---------|----------------
-        1  | onos   | 0.8.0   | 3.0.0
+        1  | onos   | 0.9.0   | 4.0.0
 
      
 7. Check if the plugin is enabled on the settings table.
@@ -83,7 +83,7 @@ All described actions below are described from a Fuel GUI provisioning perspecti
 
      onos plugin
 
-3. Select three nodes with role 'controller', three with role 'compute' and one with 'onos'.
+3. Select three nodes with role 'controller', three with role 'compute' and one with 'onos'. Node with role 'onos' can colocate with any other roles or locates independently. 
 
 4. Click 'Deploy changes' to enable nodes with ONOSFW.
 
@@ -94,7 +94,7 @@ All described actions below are described from a Fuel GUI provisioning perspecti
 In order to run ONOS, the following are required:
 
 - Java 8 JDK (Oracle Java recommended; OpenJDK is not as thoroughly tested)
-- ONOS tarball( Newest version 1.4 recommended.)
+- ONOS tarball( Newest version 1.6 supplied.)
 
 Notice: In case of version problems, the onos rpm uses jdk and onos packages that have been tested.
 
@@ -104,6 +104,7 @@ Notice: In case of version problems, the onos rpm uses jdk and onos packages tha
 For that purpose, IP address of horizon should be ready, which can be found in fuel master after successful deployment. The web will run into the log page after inputing the path, username and password are both 'karaf'. Now enjot ONOS!
 
         Web UI: http://horizon_ip:8181/onos/ui
+
 2. CLI is capable of more diverse functionality by running /opt/onos/bin/onos. More about CLI can be found in [The ONOS CLI](
 https://wiki.onosproject.org/display/ONOS/The+ONOS+CLI).
 

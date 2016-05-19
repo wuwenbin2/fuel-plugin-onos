@@ -1,3 +1,5 @@
+notice('ONOS MODULAR: neutron-config.pp')
+
 include onos
 
 Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }

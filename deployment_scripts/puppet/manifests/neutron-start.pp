@@ -1,7 +1,7 @@
+notice('ONOS MODULAR: neutron-start.pp')
+
 include onos
-
 Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
-
 
 service {'start neutron service':
          name => "neutron-server",

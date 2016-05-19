@@ -1,4 +1,4 @@
-notice('MODULAR: onos-dashboard.pp')
+notice('ONOS MODULAR: onos-dashboard.pp')
 
 $cluster_id = hiera('deployment_id')
 $master_ip = hiera('master_ip')
