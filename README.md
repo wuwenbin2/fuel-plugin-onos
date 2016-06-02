@@ -12,6 +12,7 @@ This plugin will install [ Open Network Operating System (ONOS) controller](http
 * Only supports the environment with network type: Neutron.
 * Live migration is supported.
 * L2 and L3 traffic are supported.
+* Sfc is supported.
 
 
 ##Installation Guide##
@@ -22,7 +23,7 @@ This plugin will install [ Open Network Operating System (ONOS) controller](http
 
 1. Log in Fuel Master and clone GIT repository of fuel-plugin-onos from openstack:
 
-        git clone -b Liberty git://git.openstack.org/openstack/fuel-plugin-onos
+        git clone -b Mitaka git://git.openstack.org/openstack/fuel-plugin-onos
 
 2. Preparing an environment for plugin development by three easy steps:
 
@@ -79,11 +80,11 @@ All described actions below are described from a Fuel GUI provisioning perspecti
 
 1. Create a new environment.
 
-2. Select 'onos plugin' on Settings tab.
+2. Select 'onos plugin' on Settings tab. If you want to try sfc, select 'enable_sfc'.
 
      onos plugin
 
-3. Select three nodes with role 'controller', three with role 'compute' and one with 'onos'. Node with role 'onos' can colocate with any other roles or locates independently. 
+3. Select three nodes with role 'controller', three with role 'compute' and one with 'onos'.
 
 4. Click 'Deploy changes' to enable nodes with ONOSFW.
 
@@ -94,7 +95,7 @@ All described actions below are described from a Fuel GUI provisioning perspecti
 In order to run ONOS, the following are required:
 
 - Java 8 JDK (Oracle Java recommended; OpenJDK is not as thoroughly tested)
-- ONOS tarball( Newest version 1.6 supplied.)
+- ONOS tarball( Newest version 1.4 recommended.)
 
 Notice: In case of version problems, the onos rpm uses jdk and onos packages that have been tested.
 
@@ -104,7 +105,6 @@ Notice: In case of version problems, the onos rpm uses jdk and onos packages tha
 For that purpose, IP address of horizon should be ready, which can be found in fuel master after successful deployment. The web will run into the log page after inputing the path, username and password are both 'karaf'. Now enjot ONOS!
 
         Web UI: http://horizon_ip:8181/onos/ui
-
 2. CLI is capable of more diverse functionality by running /opt/onos/bin/onos. More about CLI can be found in [The ONOS CLI](
 https://wiki.onosproject.org/display/ONOS/The+ONOS+CLI).
 

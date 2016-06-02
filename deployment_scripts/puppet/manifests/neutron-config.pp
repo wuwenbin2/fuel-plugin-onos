@@ -1,9 +1,10 @@
-notice('ONOS MODULAR: neutron-config.pp')
+notice(' ONOS MODULAR: neutron-config.pp')
 
 include onos
 
 Exec { path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/" ] }
 
+$onos_settings = hiera('onos')
 
 service {'stop neutron service':
          name => "neutron-server",
@@ -25,25 +26,47 @@ package { 'install git':
 }->
 
 file{ "/opt/networking-onos.tar":
-        source => "puppet:///modules/onos/networking-onos.tar",
+  source => "puppet:///modules/onos/networking-onos.tar",
 }->
 
-file{ '/opt/onos_driver.sh':
-        source => "puppet:///modules/onos/onos_driver.sh",
+exec{ 'tar onos driver':
+  command => "tar xf /opt/networking-onos.tar -C /opt",
 }->
 
 exec{ 'install onos driver':
-        command => "sh /opt/onos_driver.sh;"
-}->
+  command => "sh /opt/networking-onos/install_driver.sh"
+}
 
-neutron_config { 'DEFAULT/service_plugins':
+
+if $onos_settings['enable_sfc']{
+    neutron_config { 'DEFAULT/service_plugins':
+        value => 'networking_sfc.services.sfc.plugin.SfcPlugin, networking_sfc.services.flowclassifier.plugin.FlowClassifierPlugin, onos_router,neutron.services.metering.metering_plugin.MeteringPlugin';
+    }
+    
+     file{ "/opt/networking-sfc.tar":
+        source => "puppet:///modules/onos/networking-sfc.tar",
+    }->
+
+    exec{ 'tar onos sfc driver':
+        command => "tar xf /opt/networking-sfc.tar -C /opt",
+    }->
+
+    exec{ 'install onos sfc driver':
+        command => "sh /opt/networking-sfc/install_driver.sh"
+    } 
+
+}
+else{
+    neutron_config { 'DEFAULT/service_plugins':
         value => 'onos_router,neutron.services.metering.metering_plugin.MeteringPlugin';
+    }
+
 }
 
 if roles_include(['primary-controller']) {
   exec { 'disable neutron l3 agent':
     command => "crm resource stop neutron-l3-agent",
-    require => Service ['stop neutron service'],
+    require => Service['stop neutron service'],
   }->
 
   exec { 'drop_neutron_db':
@@ -60,5 +83,12 @@ if roles_include(['primary-controller']) {
 
   exec { 'neutron_db_sync':
     command => 'neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugin.ini upgrade head',
+  }
+
+  if $onos_settings['enable_sfc']{
+      exec { 'neutron_db_sync for sfc':
+         command => 'neutron-db-manage --subproject networking-sfc upgrade head',
+         require => [Exec['neutron_db_sync'], Exec['install onos sfc driver']],
+      }
   }
 }

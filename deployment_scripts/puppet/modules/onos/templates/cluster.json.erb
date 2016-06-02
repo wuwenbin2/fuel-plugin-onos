@@ -1,20 +1,25 @@
-{"ipPrefix": "192.168.0.*",
-  "nodes": [
-	<% index = 1 -%>
-	<%- @manager_ip.each do |ip|  -%>
-        <%- if index == @manager_ip.size -%>
+{
+    "nodes": [
         {
-        "ip": "<%= ip -%>",
-        "id": "<%= ip -%>",
-        "tcpPort": 9876
+            "ip": "<%= @ip %>",
+            "id": "<%= @ip %>",
+            "port": 9876
         }
-        <%- else -%>
+    ],
+    "name": "default",
+    "partitions": [
         {
-        "ip": "<%= ip -%>",
-        "id": "<%= ip -%>",
-        "tcpPort": 9876
-   	},
-        <%- end -%>
-        <%- index = index + 1 -%>
-        <%- end -%>
-]}
+            "id": 0,
+            "members": [
+                "<%= @ip %>"
+            ]
+        },
+        {
+            "id": 1,
+            "members": [
+                "<%= @ip %>"
+            ]
+        }
+    ]
+
+}

@@ -3,10 +3,20 @@
   role: [onos]
   requires: [deploy_start]
   required_for: [deploy_end, primary-controller, controller]
-  tasks: [hiera, setup_repositories, fuel_pkgs, globals, tools, logging, onos_install]
+  tasks: [hiera, setup_repositories, fuel_pkgs, globals, tools, logging, onos_install, netconfig]
   parameters:
     strategy:
       type: parallel
+- id: ovs_update
+  type: puppet
+  version: 2.0.0
+  groups: [primary-controller,controller,compute]
+  requires: [deploy_start]
+  required_for: [netconfig, deploy_end]
+  parameters:
+    puppet_manifest: puppet/manifests/ovs-update.pp
+    puppet_modules: puppet/modules:/etc/puppet/modules
+    timeout: 720
 - id: onos_install
   type: puppet
   version: 2.0.0
@@ -38,7 +48,7 @@
   parameters:
     puppet_manifest: puppet/manifests/onos-ha.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
-    timeout: 1400
+    timeout: 720
 - id: onos_config_ovs_controller
   type: puppet
   version: 2.0.0
@@ -72,7 +82,7 @@
   parameters:
     puppet_manifest: puppet/manifests/neutron-config.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
-    timeout: 1800
+    timeout: 600
 - id: onos_start_neutron
   type: puppet
   version: 2.0.0
@@ -82,8 +92,7 @@
   parameters:
     puppet_manifest: puppet/manifests/neutron-start.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
-    timeout: 1800
-    timeout: 600
+    timeout: 720
 - id: onos_dashboard_registration
   type: puppet
   role: [primary-controller]

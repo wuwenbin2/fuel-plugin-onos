@@ -1,4 +1,4 @@
-notice('ONOS MODULAR: ovs-controller.pp')
+notice(' ONOS MODULAR: ovs-controller.pp')
 
 include onos
 
@@ -26,7 +26,7 @@ service {$neutron_ovs_agent:
 
 
 firewall{'222 vxlan':
-      dport   => [4789],
+      dport   => [4789, 4790],
       proto  => 'udp',
       action => 'accept',
 }->

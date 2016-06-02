@@ -12,5 +12,6 @@ $enable_sfc = onos_settings['enable_sfc']
 $onos_home = '/opt/onos'
 $karaf_dist = 'apache-karaf-3.0.5'
 $onos_pkg_name = 'onos-1.6.0.tar.gz'
+#$onos_pkg_name = 'onos-1.7.0.onos.tar.gz'
 $jdk8_pkg_name = 'jdk-8u51-linux-x64.tar.gz'
 }

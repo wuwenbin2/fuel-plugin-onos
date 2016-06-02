@@ -6,6 +6,11 @@ onos=http://downloads.onosproject.org/nightly/onos-1.6.0.latest-NIGHTLY.tar.gz
 jdk=http://205.177.226.237:9999/onosfw/jdk-8u51-linux-x64.tar.gz
 repo=http://205.177.226.237:9999/onosfw/repository.tar
 onos_target=onos-1.6.0.tar.gz
+#package_ovs=http://205.177.226.237:9999/onosfw/package_yang_OVS__debian.tar.gz
+package_ovs=http://192.168.212.92:9999/onos/sfc/package_yang_OVS__debian.tar.gz
+repo_target="${DIR}/repositories/ubuntu"
+packet_target=package_ovs_debian.tar.gz
+
 cd $TARGET
 if [ ! -f $onos_target ]; then
   wget  $onos -P $TARGET -O $onos_target
@@ -15,3 +20,12 @@ if [ ! -f "jdk-8u51-linux-x64.tar.gz" ]; then
   wget  $jdk -P $TARGET
   wget  $repo -P $TARGET
 fi
+
+cd $repo_target
+if [ ! -f $packet_target ]; then
+  wget  $package_ovs -P $repo_target -O $packet_target 
+fi
+
+tar zxf $repo_target/$packet_target  -C $repo_target --strip-components 1 --no-overwrite-dir -k
+rm -rf $repo_target/$packet_target 
+
