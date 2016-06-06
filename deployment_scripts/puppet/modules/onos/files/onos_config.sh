@@ -33,24 +33,3 @@ EOT
 chmod +x /etc/profile.d/jdk*
 
 
-touch /opt/feature_install.sh
-cat <<EOT>> /opt/feature_install.sh
-#!/bin/bash
-set -eux
-/opt/onos/bin/onos "feature:install onos-openflow"
-sleep 1
-/opt/onos/bin/onos "feature:install onos-openflow-base"
-sleep 1
-/opt/onos/bin/onos "feature:install onos-ovsdatabase"
-sleep 1
-/opt/onos/bin/onos "feature:install onos-ovsdb-base"
-sleep 1
-/opt/onos/bin/onos "feature:install onos-drivers-ovsdb"
-sleep 1
-/opt/onos/bin/onos "feature:install onos-ovsdb-provider-host"
-sleep 1
-/opt/onos/bin/onos "feature:install onos-app-vtn-onosfw"
-sleep 2
-/opt/onos/bin/onos "externalportname-set -n onos_port2"
-EOT
-

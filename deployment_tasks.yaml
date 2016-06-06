@@ -13,6 +13,7 @@
   groups: [primary-controller,controller,compute]
   requires: [deploy_start]
   required_for: [netconfig, deploy_end]
+  condition: "settings:onos.enable_sfc == true"
   parameters:
     puppet_manifest: puppet/manifests/ovs-update.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
@@ -48,7 +49,7 @@
   parameters:
     puppet_manifest: puppet/manifests/onos-ha.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
-    timeout: 720
+    timeout: 1400
 - id: onos_config_ovs_controller
   type: puppet
   version: 2.0.0
@@ -82,7 +83,7 @@
   parameters:
     puppet_manifest: puppet/manifests/neutron-config.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
-    timeout: 600
+    timeout: 1800
 - id: onos_start_neutron
   type: puppet
   version: 2.0.0
@@ -92,7 +93,8 @@
   parameters:
     puppet_manifest: puppet/manifests/neutron-start.pp
     puppet_modules: puppet/modules:/etc/puppet/modules
-    timeout: 720
+    timeout: 1800
+    timeout: 600
 - id: onos_dashboard_registration
   type: puppet
   role: [primary-controller]

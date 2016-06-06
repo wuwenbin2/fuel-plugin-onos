@@ -21,7 +21,6 @@ class onos::ha::haproxy {
 
   $public_vip = hiera('public_vip')
   $management_vip = hiera('management_vip')
-
   $nodes_hash = hiera('nodes')
   $primary_controller_nodes = filter_nodes($nodes_hash,'role','primary-controller')
   $onos_controllers = filter_nodes($nodes_hash,'role','onos')

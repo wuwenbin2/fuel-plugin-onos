@@ -1,41 +1,60 @@
-
 class onos::service{
 
-$manager_ip = $onos::manager_ip
-Exec{
-        path => "/usr/bin:/usr/sbin:/bin:/sbin",
-        timeout => 320,
-	logoutput => 'true',
-}
+  $manager_ip = $onos::manager_ip
+  Exec {
+    path      => "/usr/bin:/usr/sbin:/bin:/sbin",
+    timeout   => 320,
+    logoutput => 'true',
+  }
 
-firewall {'221 onos':
-      dport   => [6633, 6640, 6653, 8181, 8101,9876],
-      proto  => 'tcp',
-      action => 'accept',
-}->
-service{ 'onos':
-        ensure => running,
-        enable => true,
-        hasstatus => true,
-        hasrestart => true,
-}->
+  firewall {'221 onos':
+    dport   => [6633, 6640, 6653, 8181, 8101, 9876],
+    proto  => 'tcp',
+    action => 'accept',
+  }->
 
-exec{ 'sleep 120 to stablize onos':
-        command => 'sleep 120;'
-}->
+  service { 'onos':
+    ensure => running,
+    enable => true,
+    hasstatus => true,
+    hasrestart => true,
+  }->
 
-exec { 'wait onos ready':
-      command   => "curl -o /dev/null --fail --silent --head -u karaf:karaf http://$manager_ip:8181/onos/ui",
-      tries     => 60,
-      try_sleep => 20,
-}->
+  exec { 'sleep 150 to stablize onos':
+    command => 'sleep 150;'
+  }->
 
-exec{ 'install onos features':
-        command => "sh /opt/feature_install.sh;
-        rm -rf /opt/feature_install.sh;",
-}->
+  exec { 'wait onos ready':
+    command   => "curl -o /dev/null --fail --silent --head -u karaf:karaf http://$manager_ip:8181/onos/ui",
+    tries     => 60,
+    try_sleep => 20,
+  }->
 
-exec{ 'add onos auto start':
-        command => 'echo "onos">>/opt/service',
-}
+  exec { 'install feature openflow':
+    command => "/opt/onos/bin/onos 'feature:install onos-openflow-base';
+    /opt/onos/bin/onos 'feature:install onos-openflow'",
+    tries     => 3,
+    try_sleep => 5,
+  }->
+
+  exec { 'install feature ovs':
+    command => "/opt/onos/bin/onos 'feature:install onos-ovsdatabase';
+    /opt/onos/bin/onos 'feature:install onos-ovsdb-base';
+    /opt/onos/bin/onos 'feature:install onos-drivers-ovsdb';
+    /opt/onos/bin/onos 'feature:install onos-ovsdb-provider-host';",
+    tries     => 3,
+    try_sleep => 2,
+  }->
+
+
+  exec { 'install feature onosfw':
+    command => "/opt/onos/bin/onos 'feature:install onos-app-vtn-onosfw';
+    /opt/onos/bin/onos 'externalportname-set -n onos_port2';",
+    tries     => 3,
+    try_sleep => 2,
+  }->
+
+  exec { 'add onos auto start':
+    command => 'echo "onos">>/opt/service',
+  }
 }

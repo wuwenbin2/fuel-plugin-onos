@@ -8,11 +8,10 @@ This plugin will install [ Open Network Operating System (ONOS) controller](http
 ##Notification##
 
 
-* Fuel opentack version should be 9.0.
+* Fuel opentack version should be 8.0.
 * Only supports the environment with network type: Neutron.
 * Live migration is supported.
 * L2 and L3 traffic are supported.
-* Sfc is supported.
 
 
 ##Installation Guide##
@@ -23,7 +22,7 @@ This plugin will install [ Open Network Operating System (ONOS) controller](http
 
 1. Log in Fuel Master and clone GIT repository of fuel-plugin-onos from openstack:
 
-        git clone -b Mitaka git://git.openstack.org/openstack/fuel-plugin-onos
+        git clone -b Liberty git://git.openstack.org/openstack/fuel-plugin-onos
 
 2. Preparing an environment for plugin development by three easy steps:
 
@@ -62,7 +61,7 @@ This plugin will install [ Open Network Operating System (ONOS) controller](http
 
         id | name   | version | package_version
         ---|--------|---------|----------------
-        1  | onos   | 0.9.0   | 4.0.0
+        1  | onos   | 0.8.0   | 3.0.0
 
      
 7. Check if the plugin is enabled on the settings table.
@@ -80,7 +79,7 @@ All described actions below are described from a Fuel GUI provisioning perspecti
 
 1. Create a new environment.
 
-2. Select 'onos plugin' on Settings tab. If you want to try sfc, select 'enable_sfc'.
+2. Select 'onos plugin' on Settings tab.
 
      onos plugin
 
