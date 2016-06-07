@@ -9,6 +9,7 @@ onos=onos-1.6.0.tar.gz
 package=package_ovs_debian.tar.gz
 jdk=jdk-8u51-linux-x64.tar.gz
 repo=repository.tar
+img=firewall_block_image.img
 
 cd $TARGET
 if [ ! -f $onos ]; then
@@ -18,6 +19,7 @@ fi
 if [ ! -f $jdk ]; then
   wget  $base_url/$jdk -P $TARGET
   wget  $base_url/$repo -P $TARGET
+  wget  $base_url/$img -P $TARGET
 fi
 
 cd $repo_target
