@@ -2,8 +2,7 @@
 set -eux
 DIR="$(dirname `readlink -f $0`)"
 TARGET="${DIR}/deployment_scripts/puppet/modules/onos/files"
-#base_url=http://205.177.226.237:9999/onosfw
-base_url=http://192.168.212.92:9999
+base_url=http://205.177.226.237:9999/onosfw
 repo_target="${DIR}/repositories/ubuntu"
 onos=onos-1.6.0.tar.gz
 package=package_ovs_debian.tar.gz
