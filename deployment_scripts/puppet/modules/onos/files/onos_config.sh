@@ -32,3 +32,4 @@ EOT
 
 chmod +x /etc/profile.d/jdk*
 
+

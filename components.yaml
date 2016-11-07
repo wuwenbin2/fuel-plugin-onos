@@ -1,0 +1,18 @@
+- name: 'network:neutron:onos:tun'
+  label: 'onos based on neutron tunneling segmentation'
+  description: 'Use Neutron with networking-onos driver'
+  bind: !!pairs
+    - "cluster:net_provider": "neutron"
+    - "cluster:net_segment_type": "tun"
+  compatible:
+    - name: 'hypervisor:kvm'
+    - name: 'hypervisor:qemu'
+- name: 'network:neutron:onos:vlan'
+  label: 'onos based on neutron vlan segmentation'
+  description: 'Use Neutron with networking-onos driver'
+  bind: !!pairs
+    - "cluster:net_provider": "neutron"
+    - "cluster:net_segment_type": "vlan"
+  compatible:
+    - name: 'hypervisor:kvm'
+    - name: 'hypervisor:qemu'

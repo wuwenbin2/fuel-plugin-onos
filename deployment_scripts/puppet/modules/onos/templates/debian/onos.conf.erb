@@ -23,7 +23,6 @@ script
     export PATH=$PATH:/usr/lib/jvm/java-8-oracle/bin:/usr/lib/jvm/java-8-oracle/db/bin:/usr/lib/jvm/java-8-oracle/jre/bin;
     export JAVA_HOME=/usr/lib/jvm/java-8-oracle;
     export DERBY_HOME=/usr/lib/jvm/java-8-oracle/db;
-    export ONOS_APPS=<%= @onos_extra_features %>
   [ -f /opt/onos/options ] && . /opt/onos/options
   start-stop-daemon --signal INT --start --chuid $ONOS_USER \
     --exec /opt/onos/bin/onos-service -- $ONOS_OPTS \

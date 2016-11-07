@@ -1,0 +1,9 @@
+[Unit]
+Description=onos
+
+[Service]
+Type=forking
+ExecStart=/etc/init.d/onos start
+
+[Install]
+WantedBy=multi-user.target

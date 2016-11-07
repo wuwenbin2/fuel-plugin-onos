@@ -1,0 +1,42 @@
+#!/bin/bash
+
+set -ux
+
+ifconfig | grep br-ex
+
+if [ $? -eq 1 ];then
+  echo "no br-ex exits"
+
+else
+  echo "br-ex needs to remove"
+  ifconfig br-ex down
+  brctl delbr br-ex
+
+fi
+
+
+ifconfig <%= @public_eth -%> up
+ovs-vsctl add-br br-public
+ovs-vsctl add-port br-public <%= @public_eth %>
+ifconfig br-public up
+
+ip link add onos_port1 type veth peer name onos_port2
+ifconfig onos_port1 up
+ifconfig onos_port2 up
+
+#externamMac=`ifconfig <%= @public_eth -%> | grep "HWaddr" | awk '{print $5}'`
+externamMac=$(ifconfig <%= @public_eth -%> | \
+                 grep -Eo "[0-9a-f\]+:[0-9a-f\]+:[0-9a-f\]+:[0-9a-f\]+:[0-9a-f\]+:[0-9a-f\]+")
+ifconfig onos_port2 hw ether $externamMac
+ovs-vsctl add-port br-public onos_port1
+
+route | grep default
+
+if [ $? -eq 1 ];then
+  echo "need to add default gw"
+  route add default gw  <%= @vrouter -%>
+
+else
+  echo "no need to add default gw"
+
+fi

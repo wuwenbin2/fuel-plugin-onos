@@ -2,3 +2,9 @@ attributes:
   metadata:
     restrictions:
       - "cluster:net_provider != 'neutron'": "Neutron only"
+      - settings:public_network_assignment.assign_to_all_nodes.value == false: Assign public network to all nodes
+  enable_sfc:
+    weight: 13
+    type: "checkbox"
+    value: false
+    label: "SFC features"
